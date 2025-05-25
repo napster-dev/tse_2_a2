@@ -10,6 +10,7 @@ services:
     secrets:
       - db_user
       - db_password
+    container_name: unified_app_container
 
   db:
     image: postgres:13
