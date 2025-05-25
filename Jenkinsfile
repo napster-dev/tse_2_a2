@@ -32,6 +32,7 @@ pipeline {
         stage('Containerized Deployment') {
             steps {
                 echo '🚀 Deploying app using Docker Compose...'
+                sh 'docker-compose build --no-cache'
                 sh 'docker-compose up -d'
                 sh 'sleep 5' // Wait for app to fully start
             }
