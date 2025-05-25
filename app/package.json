@@ -10,8 +10,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "app": "file:",
     "express": "^5.1.0",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

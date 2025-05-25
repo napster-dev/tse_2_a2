@@ -1,21 +1,28 @@
 FROM node:18
 
+# Set working directory
 WORKDIR /app
 
-# Install Node dependencies
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip wget curl gnupg unzip && \
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    apt install -y ./google-chrome-stable_current_amd64.deb && \
+    rm google-chrome-stable_current_amd64.deb
+
+# Install Node.js dependencies
 COPY app/package.json .
 RUN npm install
 
-# Copy app and tests
+# Install Python Selenium
+RUN pip3 install selenium
+
+# Copy all application and test code
 COPY app/ .
 COPY tests/ /tests/
 
-# Install Python and Selenium for running tests
-RUN apt-get update && apt-get install -y python3 python3-pip wget unzip curl gnupg \
- && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
- && apt install -y ./google-chrome-stable_current_amd64.deb \
- && pip3 install selenium
-
-# Start the app and run tests (optional - use ENTRYPOINT in Jenkins instead)
+# Expose port for the app
 EXPOSE 3000
+
+# Default: Start app only
 CMD ["npm", "start"]
