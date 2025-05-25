@@ -8,29 +8,23 @@ pipeline {
 
     stages {
 
-        stage('Code Linting') {
+        stage('Build Docker Image') {
             steps {
-                echo '🔍 Running ESLint...'
-                dir('app') {
-                    sh 'npm install eslint --save-dev'
-                    sh './node_modules/.bin/eslint . || true'
-                }
+                echo '🏗️ Building Docker image...'
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
-        stage('Code Build') {
+        stage('Code Linting') {
             steps {
-                echo '🏗️ Installing dependencies...'
-                dir('app') {
-                    sh 'npm install'
-                }
+                echo '🔍 Running ESLint inside Docker...'
+                sh 'docker run --rm $IMAGE_NAME npx eslint . || true'
             }
         }
 
         stage('Unit Testing') {
             steps {
-                echo '🧪 Running Jest unit tests inside container...'
-                sh 'docker build -t $IMAGE_NAME .'
+                echo '🧪 Running Jest unit tests inside Docker...'
                 sh 'docker run --rm $IMAGE_NAME npm test'
             }
         }
