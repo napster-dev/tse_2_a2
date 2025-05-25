@@ -17,7 +17,7 @@ RUN npm install
 # Install Python Selenium
 RUN python3 -m venv /opt/venv \
     && /opt/venv/bin/pip install --upgrade pip \
-    && /opt/venv/bin/pip install selenium
+    && /opt/venv/bin/pip install selenium pytest
 
 ENV PATH="/opt/venv/bin:$PATH"
 
