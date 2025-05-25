@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip wget curl gnupg unzip && \
+    apt-get install -y python3 python3-pip python3-venv wget curl gnupg unzip && \
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt install -y ./google-chrome-stable_current_amd64.deb && \
     rm google-chrome-stable_current_amd64.deb
@@ -15,7 +15,11 @@ COPY app/package.json .
 RUN npm install
 
 # Install Python Selenium
-RUN pip3 install selenium
+RUN python3 -m venv /opt/venv \
+    && /opt/venv/bin/pip install --upgrade pip \
+    && /opt/venv/bin/pip install selenium
+
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy all application and test code
 COPY app/ .
