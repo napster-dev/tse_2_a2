@@ -40,7 +40,7 @@ pipeline {
         stage('Selenium Testing') {
             steps {
                 echo '🧪 Running Selenium test cases...'
-                sh 'docker exec $CONTAINER_NAME python3 /tests/test_selenium.py'
+                sh 'docker exec $CONTAINER_NAME /opt/venv/bin/python /tests/test_selenium.py'
             }
         }
     }
